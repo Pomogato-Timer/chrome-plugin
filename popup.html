@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Pomodoro Timer</title>
+    <style>
+        html,
+        body {
+            width: 300px;
+            height: 300px;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #timer {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .popup-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 8px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="popup-container">
+        <h2>Pomodoro Timer</h2>
+        <div id="timer">25:00</div>
+
+        <div>
+            <button id="startTimer">Start Timer</button>
+            <button id="stopTimer">Stop Timer</button>
+        </div>
+
+        <div>
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.1">
+        </div>
+        <script src="popup.js"></script>
+    </div>
+</body>
+
+</html>
