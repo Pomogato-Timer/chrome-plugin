@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Pomogato Timer",
+  "version": "1.0.0",
+  "description": "A basic example extension with only required keys",
+  "icons": {
+    "1600": "src/assets/images/pomogato-logo.png"
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "src/pages/popup/index.html"
+  },
+  "permissions": [
+    "scripting",
+    "tabs",
+    "activeTab",
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/assets/alarm.mp3"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
