@@ -45,7 +45,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
             // Open a fallback window
             chrome.windows.create({
-                url: "finished.html",
+                url: "src/pages/finished/index.html",
                 type: "popup",
                 width: 400,
                 height: 300
