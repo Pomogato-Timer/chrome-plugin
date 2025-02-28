@@ -3,52 +3,11 @@
 
 <head>
     <title>Pomodoro Timer</title>
-    <style>
-        html,
-        body {
-            width: 300px;
-            height: 300px;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        button {
-            padding: 10px;
-            margin-bottom: 10px;
-            width: 100%;
-            cursor: pointer;
-        }
-
-        #timer {
-            font-size: 24px;
-            margin: 10px 0;
-        }
-
-        .popup-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 8px;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="popup-container">
-        <div id="__root"></div>
-        <script type="module" src="./index.tsx"></script>
-    </div>
+    <div id="root" class="root"></div>
+    <script type="module" src="./index.tsx"></script>
 </body>
 
 </html>

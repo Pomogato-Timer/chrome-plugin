@@ -1,7 +1,10 @@
 //@ts-nocheck
 import { useState, useRef } from 'react';
-import logo from '@assets/img/logo.svg';
 
+import pomogatoLogo from '@assets/images/pomogato-logo.png'
+import startMessageImage from '@assets/images/start-message.png'
+
+import Clouds from '../../components/clouds/Clouds';
 
 const defaultTimer = '25:00';
 
@@ -67,19 +70,23 @@ export default function Popup() {
   };
 
   return (
-    <div className="">
-      <h2>Pomodoro Timer</h2>
-      <div id="timer">{timer}</div>
+    <main className="main">
+      <Clouds />
 
       <div>
-        <button onClick={onStart}>Start Timer</button>
-        <button onClick={onStop}>Stop Timer</button>
+        <div>
+          <img style={{ width: 180 }} src={startMessageImage} />
+        </div>
+
+        <button style={{ marginTop: -24 }} className="boop-btn" onClick={onStart}>
+          <img style={{ width: 88 }} src={pomogatoLogo} className="logo" alt="Start Timer Image" />
+        </button>
       </div>
 
-      <div>
+      {/* <div>
         <label>Volume:</label>
         <input ref={volumeInput} type="range" min="0" max="1" step="0.1" />
-      </div>
-    </div>
+      </div> */}
+    </main>
   );
 }
