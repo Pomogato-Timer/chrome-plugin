@@ -4,7 +4,7 @@ import './index.css';
 import Popup from '@pages/popup/Popup';
 
 function init() {
-  const rootContainer = document.querySelector("#__root");
+  const rootContainer = document.querySelector("#root");
   if (!rootContainer) throw new Error("Can't find Popup root element");
   const root = createRoot(rootContainer);
   root.render(<Popup />);

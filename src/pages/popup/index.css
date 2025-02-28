@@ -1,12 +1,91 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
+  position: relative;
+
+  margin: 0;
+  padding: 0;
+
   width: 300px;
   height: 260px;
-  margin: 0;
+  overflow: hidden;
+
+  background: #242424;
+  
+  text-align: center;
+
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  position: relative;
+.root {
+  height: inherit;
+}
+
+.main {
+  height: inherit;
+  padding-top: 40px;
+}
+
+/* 
+html,
+body {
+    width: 300px;
+    height: 300px;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#timer {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.popup-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 8px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+} */
+
+
+
+button {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+
+  cursor: pointer;
+}
+
+.boop-btn {
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.boop-btn:hover {
+  filter: drop-shadow(0 0 2em #faa);
+}
+
+.boop-btn.react:hover {
+  filter: drop-shadow(0 0 2em #fbaa);
 }
