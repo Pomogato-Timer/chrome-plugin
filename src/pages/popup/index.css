@@ -2,6 +2,10 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'VT323', 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 body {
@@ -15,12 +19,9 @@ body {
   overflow: hidden;
 
   background: #242424;
-  
+
   text-align: center;
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,6 +33,7 @@ body {
 .main {
   height: inherit;
   padding-top: 40px;
+  overflow: hidden;
 }
 
 /* 
@@ -44,7 +46,6 @@ body {
 }
 
 body {
-    font-family: Arial, sans-serif;
     text-align: center;
 }
 
