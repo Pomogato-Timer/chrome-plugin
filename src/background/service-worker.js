@@ -1,8 +1,10 @@
 let pomodoroWindowId = null;
 
 chrome.runtime.onMessage.addListener((message) => {
+    console.log('options', message);
+    
     if (message.action === "startTimer") {
-        chrome.alarms.create("pomodoroTimer", { delayInMinutes: 0.1 });
+        chrome.alarms.create("pomodoroTimer", { when: message.options.endTime });
     } else if (message.action === "stopTimer") {
         chrome.alarms.clear("pomodoroTimer");
     }
@@ -17,6 +19,7 @@ chrome.runtime.onMessage.addListener((message) => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "pomodoroTimer") {
+        console.log('alarm', alarm);
         chrome.storage.local.remove("endTime"); // Clear stored time
 
         // Try opening the extension popup (this requires user interaction first)

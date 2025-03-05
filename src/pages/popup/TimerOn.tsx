@@ -8,7 +8,7 @@ import Timer from './Timer';
 
 const seconds = 30000;
 
-export default function TimerOn({ timeSelect, defaultTime, onTimerEnd }) {
+export default function TimerOn({ timeSelect, targetDate, defaultTime, onTimerEnd }) {
   const timerDisplay = document.getElementById("timer");
 
   function onStop() {
@@ -42,7 +42,7 @@ export default function TimerOn({ timeSelect, defaultTime, onTimerEnd }) {
 
   return (
     <div style={{ marginTop: 40 }}>
-      <Timer {...{ seconds }} />
+      <Timer {...{ targetDate }} />
 
       <div style={{
         display: 'flex',
@@ -52,24 +52,6 @@ export default function TimerOn({ timeSelect, defaultTime, onTimerEnd }) {
 
         marginTop: '0.5rem'
       }}>
-        <button
-          onClick={onStop}
-          style={{
-            borderRadius: '8px',
-            height: 32,
-            width: 64,
-            background: 'white',
-            border: '2px solid black',
-            fontSize: '1.25rem',
-            // boxShadow: '0px 5px 3px -1px rgba(148,148,148,1)'
-            '&:hover': {
-              border: '2px solid grey'
-            }
-          }}
-        >
-          Pause
-        </button>
-
         <button
           onClick={onStop}
           style={{

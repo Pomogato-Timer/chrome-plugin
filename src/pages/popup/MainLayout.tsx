@@ -29,6 +29,15 @@ export default function MainLayout() {
   const [timeSelect, setTimeSelect] = useState(defaultTime);
   const [timerStart, setTimerStart] = useState(false);
 
+  const targetDate = new Date().getTime() + timeSelect.value;
+
+  chrome.storage.local.get("endTime", (data) => {
+    if (data.endTime) {
+      setTimeSelect(timeSelect);
+      setTimerStart(true);
+    }
+  });
+
   function onTimerStart() {
     setTimerStart(true)
   }
@@ -64,9 +73,9 @@ export default function MainLayout() {
   return (
     <>
       {timerStart ? (
-        <TimerOn {...{ times, onTimerStart, onTimerEnd, timeSelect, setTimeSelect, defaultTime }} />
+        <TimerOn {...{ times, targetDate, onTimerStart, onTimerEnd, timeSelect, setTimeSelect, defaultTime }} />
       ) : (
-        <TimerOff {...{ times, onTimeSelect, onTimerStart, timeSelect, setTimeSelect, defaultTime }} />
+        <TimerOff {...{ times, targetDate, onTimeSelect, onTimerStart, timeSelect, setTimeSelect, defaultTime }} />
       )}
     </>
   );

@@ -1,33 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export default function Timer({ seconds = 10 }) {
-  const [timeLeft, setTimeLeft] = useState(seconds);
-  const [prevTimestamp, setPrevTimestamp] = useState(null);
+export default function Timer({ targetDate }) {
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
+  const [isRunning, setIsRunning] = useState(true);
+  const intervalRef = useRef(null);
+
+  function calculateTimeLeft(target) {
+    const now = new Date().getTime();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      return { hrs: '00', mins: '00', secs: '00', expired: true };
+    }
+
+    return {
+      hrs: String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, "0"),
+      mins: String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0"),
+      secs: String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, "0"),
+      expired: false
+    };
+  }
 
   useEffect(() => {
-    if (timeLeft <= 0) return; // Stop when reaching 0
+    if (!isRunning) return;
 
-    const tick = (timestamp: number) => {
-      if (!prevTimestamp) {
-        setPrevTimestamp(timestamp);
-      } else {
-        const deltaTime = (timestamp - prevTimestamp) / 1000; // Convert ms to s
-        setPrevTimestamp(timestamp);
-        setTimeLeft((prev) => Math.max(prev - deltaTime, 0));
-      }
-      requestAnimationFrame(tick);
-    };
+    intervalRef.current = setInterval(() => {
+      setTimeLeft(calculateTimeLeft(targetDate));
+    }, 1000);
 
-    const requestId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(requestId);
-  }, [timeLeft, prevTimestamp]);
+    return () => clearInterval(intervalRef.current);
+  }, [isRunning, targetDate]);
 
-  const formatTime = (totalSeconds: number) => {
-    // const hrs = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
-    const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
-    const secs = String(Math.floor(totalSeconds % 60)).padStart(2, "0");
-    return `${mins}:${secs}`;
-  };
+  // const pauseTimer = () => {
+  //   setIsRunning(false);
+  //   clearInterval(intervalRef.current);
+  // };
 
-  return <div style={{ fontSize: 56 }}>{formatTime(timeLeft)}</div>;
+  // const resumeTimer = () => {
+  //   if (!timeLeft.expired) {
+  //     setIsRunning(true);
+  //   }
+  // };
+
+  // const stopTimer = () => {
+  //   setIsRunning(false);
+  //   clearInterval(intervalRef.current);
+  //   setTimeLeft({ hrs: 0, mins: 0, secs: 0, expired: true });
+  // };
+
+  return <div style={{ fontSize: 56 }}>{timeLeft.mins}:{timeLeft.secs}</div>;
 };

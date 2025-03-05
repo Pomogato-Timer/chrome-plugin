@@ -10,16 +10,25 @@ export default function TimerOff({
 	onTimeSelect,
 	onTimerStart,
 	timeSelect,
+	targetDate,
 	setTimeSelect,
 	defaultTime
 }) {
 	function onStart() {
-		const endTime = Date.now() + 0.1 * 60 * 1000; // 25 minutes from now
-
-		chrome.storage.local.set({ endTime }).then(() => {
-			console.log("Value is set", endTime);
+		chrome.storage.local.set({ 
+			endTime: targetDate,
+			timeSelect
+		})
+			.then(() => {
+			console.log("Value is set", targetDate);
 		});
-		chrome.runtime.sendMessage({ action: "startTimer" });
+
+		chrome.runtime.sendMessage({
+			action: "startTimer",
+			options: {
+				endTime: targetDate
+			}
+		});
 
 		onTimerStart(true);
 	}
