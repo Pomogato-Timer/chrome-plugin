@@ -1,6 +1,8 @@
+//@ts-ignore
+import './index.css';
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
 import Finished from '@pages/finished/Finished';
 
 function init() {

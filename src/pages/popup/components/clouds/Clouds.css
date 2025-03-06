@@ -1,0 +1,36 @@
+.clouds-container {
+  background: linear-gradient(to bottom, #87b1eb, #ffffff);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  z-index: -1;
+}
+
+.cloud {
+  position: absolute;
+  width: 64px;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+@keyframes moveClouds {
+  from {
+    transform: translateX(-60px);
+  }
+
+  to {
+    transform: translateX(80vw);
+  }
+}
+
+/* .cloud:nth-child(odd) {
+    animation-duration: 35s;
+  }
+  
+  .cloud:nth-child(even) {
+    animation-duration: 40s;
+  }
+   */
