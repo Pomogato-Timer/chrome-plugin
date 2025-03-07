@@ -1,16 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Timer({ targetDate }: { targetDate: number }) {
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
+
+export default function Timer({
+  targetDate,
+  onTimerEnd
+}: {
+  targetDate: number,
+  onTimerEnd: Function
+}) {
+  const [timeVal, setTimeVal] = useState(calculateTimeLeft(targetDate));
   const intervalRef = useRef<any | null>(null);
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       const tempTime = calculateTimeLeft(targetDate);
 
-      setTimeLeft(tempTime);
+      setTimeVal(tempTime);
 
-      tempTime.expired && clearInterval(intervalRef.current);
+      if (tempTime.expired) {
+        clearInterval(intervalRef.current);
+        onTimerEnd();
+      }
     }, 1000);
 
     return () => clearInterval(intervalRef.current);
@@ -37,6 +47,6 @@ export default function Timer({ targetDate }: { targetDate: number }) {
   }
 
   return (
-    <div style={{ fontSize: 56 }}>{timeLeft.mins}:{timeLeft.secs}</div>
+    <div style={{ fontSize: 56 }}>{timeVal.mins}:{timeVal.secs}</div>
   );
 };

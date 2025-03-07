@@ -1,4 +1,7 @@
-import APP_CONSTS from '../constants/app-consts';
+import { general, storageKeys } from '../constants/app-consts';
+
+import { clearStoreValues, removePluginBadge } from '../pages/popup/utils';
+
 
 let pomodoroWindowId = null;
 
@@ -6,10 +9,12 @@ let whiteColorInterval = {
     value: null,
     delay: 1000
 };
+
 let redColorInterval = {
     value: null,
     delay: 2000
 };
+
 let intervalTimeout = {
     value: null,
     delay: 5 * 60000 //5min
@@ -20,7 +25,7 @@ chrome.runtime.onMessage.addListener(handleMessage);
 chrome.alarms.onAlarm.addListener(handleTimerAlarm);
 
 function handlePluginClick() {
-    chrome.action.setBadgeText({ text: "" });
+    removePluginBadge();
 
     clearInterval(whiteColorInterval);
     clearInterval(redColorInterval);
@@ -34,35 +39,27 @@ function handlePluginClick() {
 };
 
 function handleMessage(message) {
-    console.log('options', message);
-
     const actions = {
-        startTimer: () => chrome.alarms.create(APP_CONSTS.alarmName, { when: message.options[APP_CONSTS.storageKeys.endTime] }),
-        stopTimer: () => chrome.alarms.clear(APP_CONSTS.alarmName)
+        startTimer: () => chrome.alarms.create(general.alarmName, { when: message.options[storageKeys.endTime] }),
+        stopTimer: () => chrome.alarms.clear(general.alarmName)
     };
 
-    actions[message] && actions[message]();
-
-    console.log('pomodoroWindowId', pomodoroWindowId);
-
     if (pomodoroWindowId) {
-        chrome.windows.remove(pomodoroWindowId);
+        chrome.windows.remove(pomodoroWindowId).catch(e => {});
         pomodoroWindowId = null;
-    }
+    };
+
+    actions[message.action] && actions[message.action]();
 };
 
 function handleTimerAlarm(alarm) {
-    if (alarm.name !== alarmName) return;
+    if (alarm.name !== general.alarmName) return;
 
-    console.log('alarm', alarm);
-    // Clear stored values
-    chrome.storage.local.remove(APP_CONSTS.storageKeys.endTime);
-    chrome.storage.local.remove(APP_CONSTS.storageKeys.timeSelect);
-
+    clearStoreValues();
     setBadgeBlinkAnimation();
 
     chrome.windows.create({
-        url: "src/pages/finished/index.html",
+        url: general.finishedFileLocation,
         type: "popup",
         width: 400,
         height: 300
@@ -88,5 +85,5 @@ function setBadgeBlinkAnimation() {
         clearInterval(redColorInterval);
 
         chrome.action.setBadgeBackgroundColor({ color: "#FFF" });
-    }, (5 * 60 * 1000));
+    }, intervalTimeout.delay);
 };

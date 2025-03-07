@@ -6,46 +6,22 @@ import startMessageImage from '@assets/images/start-message.png';
 
 import Timer from './Timer';
 
-const seconds = 30000;
+import { clearStoreValues, stopTimer } from './utils';
+
 
 export default function TimerOn({ 
   targetDate,
   onTimerEnd
 }) {
   function onStop() {
-    chrome.runtime.sendMessage({ action: "stopTimer" });
-
-    // Clear stored values
-    chrome.storage.local.remove("endTime");
-    chrome.storage.local.remove("timeSelect");
-
+    stopTimer();
+    clearStoreValues();
     onTimerEnd();
   }
 
-  function updateTimerUI() {
-    // chrome.storage.local.get("endTime", (data) => {
-    //   if (data.endTime) {
-    //     const interval = setInterval(() => {
-    //       const remaining = Math.max(0, data.endTime - Date.now());
-    //       const minutes = Math.floor(remaining / 60000);
-    //       const seconds = Math.floor((remaining % 60000) / 1000);
-
-    //       let time = `${minutes}:${seconds.toString().padStart(2, "0")}`;
-
-    //       if (remaining <= 0) {
-    //         clearInterval(interval);
-    //         time = '00:00';
-    //       }
-
-    //       setTimeSelect(time);
-    //     }, 1000);
-    //   }
-    // });
-  };
-
   return (
     <div style={{ marginTop: 40 }}>
-      <Timer {...{ targetDate }} />
+      <Timer {...{ targetDate, onTimerEnd }} />
 
       <div style={{
         display: 'flex',
@@ -64,7 +40,6 @@ export default function TimerOn({
             background: 'white',
             border: '2px solid black',
             fontSize: '1.25rem',
-            // boxShadow: '0px 5px 3px -1px rgba(148,148,148,1)'
             '&:hover': {
               border: '2px solid grey'
             }
