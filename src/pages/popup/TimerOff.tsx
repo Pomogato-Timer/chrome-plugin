@@ -15,22 +15,7 @@ export default function TimerOff({
 	defaultTime
 }) {
 	function onStart() {
-		chrome.storage.local.set({ 
-			endTime: targetDate,
-			timeSelect
-		})
-			.then(() => {
-			console.log("Value is set", targetDate);
-		});
-
-		chrome.runtime.sendMessage({
-			action: "startTimer",
-			options: {
-				endTime: targetDate
-			}
-		});
-
-		onTimerStart(true);
+		onTimerStart();
 	}
 
 	return (

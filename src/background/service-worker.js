@@ -1,62 +1,92 @@
+import APP_CONSTS from '../constants/app-consts';
+
 let pomodoroWindowId = null;
 
-chrome.runtime.onMessage.addListener((message) => {
+let whiteColorInterval = {
+    value: null,
+    delay: 1000
+};
+let redColorInterval = {
+    value: null,
+    delay: 2000
+};
+let intervalTimeout = {
+    value: null,
+    delay: 5 * 60000 //5min
+};
+
+chrome.action.onClicked.addListener(handlePluginClick);
+chrome.runtime.onMessage.addListener(handleMessage);
+chrome.alarms.onAlarm.addListener(handleTimerAlarm);
+
+function handlePluginClick() {
+    chrome.action.setBadgeText({ text: "" });
+
+    clearInterval(whiteColorInterval);
+    clearInterval(redColorInterval);
+    clearTimeout(intervalTimeout);
+
+    whiteColorInterval.value = null;
+    redColorInterval.value = null;
+    intervalTimeout.value = null;
+
+    //TODO: Add? pomodoroWindowId = null;
+};
+
+function handleMessage(message) {
     console.log('options', message);
-    
-    if (message.action === "startTimer") {
-        chrome.alarms.create("pomodoroTimer", { when: message.options.endTime });
-    } else if (message.action === "stopTimer") {
-        chrome.alarms.clear("pomodoroTimer");
-    }
+
+    const actions = {
+        startTimer: () => chrome.alarms.create(APP_CONSTS.alarmName, { when: message.options[APP_CONSTS.storageKeys.endTime] }),
+        stopTimer: () => chrome.alarms.clear(APP_CONSTS.alarmName)
+    };
+
+    actions[message] && actions[message]();
 
     console.log('pomodoroWindowId', pomodoroWindowId);
-    
+
     if (pomodoroWindowId) {
         chrome.windows.remove(pomodoroWindowId);
-        pomodoroWindowId = null; // Reset stored ID
+        pomodoroWindowId = null;
     }
-});
+};
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === "pomodoroTimer") {
-        console.log('alarm', alarm);
-        chrome.storage.local.remove("endTime"); // Clear stored time
+function handleTimerAlarm(alarm) {
+    if (alarm.name !== alarmName) return;
 
-        // Try opening the extension popup (this requires user interaction first)
-        // chrome.action.openPopup().catch(() => {
-            // If popup cannot be opened, show a badge
+    console.log('alarm', alarm);
+    // Clear stored values
+    chrome.storage.local.remove(APP_CONSTS.storageKeys.endTime);
+    chrome.storage.local.remove(APP_CONSTS.storageKeys.timeSelect);
 
-            //TODO: clear after few sec
-            chrome.action.setBadgeText({ text: "Done" });
-            chrome.action.setBadgeBackgroundColor({ color: "#FF4500" });
+    setBadgeBlinkAnimation();
 
-            const aInterval = setInterval(() => {
-                chrome.action.setBadgeBackgroundColor({ color: "#FFF" });
-            }, 1000);
+    chrome.windows.create({
+        url: "src/pages/finished/index.html",
+        type: "popup",
+        width: 400,
+        height: 300
+    }, (window) => {
+        pomodoroWindowId = window.id;
+    });
+};
 
-            const bInterval = setInterval(() => {
-                chrome.action.setBadgeBackgroundColor({ color: "#FF4500" });
-            }, 2000);
+function setBadgeBlinkAnimation() {
+    chrome.action.setBadgeText({ text: "Done" });
+    chrome.action.setBadgeBackgroundColor({ color: "#FF4500" });
 
-            //TODO: also clear timeouts after clicking on the plugin
-            setTimeout(() => {
-                clearInterval(aInterval);
-                clearInterval(bInterval);
+    whiteColorInterval.value = setInterval(() => {
+        chrome.action.setBadgeBackgroundColor({ color: "#FFF" });
+    }, whiteColorInterval.delay);
 
-                chrome.action.setBadgeBackgroundColor({ color: "#FFF" });
-            }, 10000);
+    redColorInterval.value = setInterval(() => {
+        chrome.action.setBadgeBackgroundColor({ color: "#FF4500" });
+    }, redColorInterval.delay);
 
-            // Open a fallback window
-            chrome.windows.create({
-                url: "src/pages/finished/index.html",
-                type: "popup",
-                width: 400,
-                height: 300
-            }, (window) => {
-                pomodoroWindowId = window.id; // Store the window ID
-            });
-        // });
-    }
-});
+    intervalTimeout.value = setTimeout(() => {
+        clearInterval(whiteColorInterval);
+        clearInterval(redColorInterval);
 
-
+        chrome.action.setBadgeBackgroundColor({ color: "#FFF" });
+    }, (5 * 60 * 1000));
+};
