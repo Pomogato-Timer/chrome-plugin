@@ -17,8 +17,8 @@ export const timer = {
     },
     {
       id: "default-3",
-      label: "1 hr",
-      value: 60 * (60 * 1000),
+      label: "55 min",
+      value: 55 * (60 * 1000),
     },
   ],
 

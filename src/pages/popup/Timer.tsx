@@ -31,17 +31,25 @@ export default function Timer({
 
     if (diff <= 0) {
       return {
-        hrs: '00',
+        // hrs: '00',
         mins: '00',
         secs: '00',
         expired: true
       };
     }
 
+    let secs = String(Math.ceil((diff % (1000 * 60)) / 1000)).padStart(2, "0");
+    let mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0");
+
+    if (secs === '60') {
+      secs = "00";
+      mins = String(Number(mins) + 1).padStart(2, "0");
+    };
+
     return {
-      hrs: String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, "0"),
-      mins: String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0"),
-      secs: String(Math.ceil((diff % (1000 * 60)) / 1000)).padStart(2, "0"),
+      // hrs: String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, "0"),
+      mins,
+      secs,
       expired: false
     };
   }
