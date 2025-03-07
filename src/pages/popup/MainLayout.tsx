@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import TimerOff from './TimerOff';
 import TimerOn from './TimerOn';
@@ -27,28 +27,53 @@ const defaultTime = times[0];
 
 export default function MainLayout() {
   const [timeSelect, setTimeSelect] = useState(defaultTime);
-  const [timerStart, setTimerStart] = useState(false);
+  const [targetDate, setTargetDate] = useState(null);
 
-  const targetDate = new Date().getTime() + timeSelect.value;
+  useEffect(() => {
+    // (async () => {
+      chrome.storage.local.get("endTime", (data) => {
+        if (data.endTime) {
+          console.log('data', data);
+          setTargetDate(data.endTime);
+        }
+      });
 
-  chrome.storage.local.get("endTime", (data) => {
-    if (data.endTime) {
-      setTimeSelect(timeSelect);
-      setTimerStart(true);
-    }
-  });
+      chrome.storage.local.get("timeSelect", (data) => {
+        if (data.timeSelect) {
+          console.log('data', data);
+          setTimeSelect(data.timeSelect);
+        }
+      });
+    // })();
+  }, [])
 
   function onTimerStart() {
-    setTimerStart(true)
+    const timerTime = Date.now() + timeSelect.value;
+
+    chrome.storage.local.set({ 
+			endTime: timerTime,
+			timeSelect: timeSelect
+		})
+			.then(() => {
+			console.log("Value is set", timeSelect, timerTime);
+		});
+
+		chrome.runtime.sendMessage({
+			action: "startTimer",
+			options: {
+				endTime: timerTime
+			}
+		});
+
+    setTargetDate(timerTime);
   }
 
   function onTimerEnd() {
-    setTimerStart(false)
+    setTargetDate(null);
+    setTimeSelect(defaultTime);
   }
 
   const volumeInput = useRef(null);
-
-  const timerDisplay = document.getElementById("timer");
 
   chrome.action.setBadgeText({ text: "" });
 
@@ -70,12 +95,14 @@ export default function MainLayout() {
     setTimeSelect(time);
   }
 
+  console.log('targetDate', targetDate);
+
   return (
     <>
-      {timerStart ? (
-        <TimerOn {...{ times, targetDate, onTimerStart, onTimerEnd, timeSelect, setTimeSelect, defaultTime }} />
+      {targetDate ? (
+        <TimerOn {...{ targetDate, onTimerEnd }} />
       ) : (
-        <TimerOff {...{ times, targetDate, onTimeSelect, onTimerStart, timeSelect, setTimeSelect, defaultTime }} />
+        <TimerOff {...{ times, targetDate, onTimeSelect, onTimerStart, timeSelect, setTimeSelect }} />
       )}
     </>
   );

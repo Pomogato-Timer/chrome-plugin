@@ -8,14 +8,17 @@ import Timer from './Timer';
 
 const seconds = 30000;
 
-export default function TimerOn({ timeSelect, targetDate, defaultTime, onTimerEnd }) {
-  const timerDisplay = document.getElementById("timer");
-
+export default function TimerOn({ 
+  targetDate,
+  onTimerEnd
+}) {
   function onStop() {
-    chrome.storage.local.remove("endTime");
     chrome.runtime.sendMessage({ action: "stopTimer" });
 
-    setTimeSelect(defaultTime);
+    // Clear stored values
+    chrome.storage.local.remove("endTime");
+    chrome.storage.local.remove("timeSelect");
+
     onTimerEnd();
   }
 

@@ -1,98 +1,88 @@
 //@ts-nocheck
 import { useState, useRef } from 'react';
 
-import pomogatoLogo from '@assets/images/pomogato-logo.png'
-import startMessageImage from '@assets/images/start-message.png'
+import pomogatoLogo from '@assets/images/pomogato-logo.png';
+import startMessageImage from '@assets/images/start-message.png';
 
+import Timer from './Timer';
 
-export default function TimerOff({
-	times,
-	onTimeSelect,
-	onTimerStart,
-	timeSelect,
-	targetDate,
-	setTimeSelect,
-	defaultTime
+const seconds = 30000;
+
+export default function TimerOn({
+  targetDate,
+  onTimerEnd
 }) {
-	function onStart() {
-		chrome.storage.local.set({ 
-			endTime: targetDate,
-			timeSelect
-		})
-			.then(() => {
-			console.log("Value is set", targetDate);
-		});
+  function onStop() {
+    chrome.runtime.sendMessage({ action: "stopTimer" });
 
-		chrome.runtime.sendMessage({
-			action: "startTimer",
-			options: {
-				endTime: targetDate
-			}
-		});
+    // Clear stored values
+    chrome.storage.local.remove("endTime");
+    chrome.storage.local.remove("timeSelect");
 
-		onTimerStart(true);
-	}
+    onTimerEnd();
+  }
 
-	return (
-		<div>
-			<div>
-				<div>
-					<img style={{ width: 180 }} src={startMessageImage} />
-				</div>
+  function updateTimerUI() {
+    // chrome.storage.local.get("endTime", (data) => {
+    //   if (data.endTime) {
+    //     const interval = setInterval(() => {
+    //       const remaining = Math.max(0, data.endTime - Date.now());
+    //       const minutes = Math.floor(remaining / 60000);
+    //       const seconds = Math.floor((remaining % 60000) / 1000);
 
-				<button style={{ marginTop: -24 }} className="boop-btn" onClick={onStart}>
-					<img style={{ width: 88 }} src={pomogatoLogo} className="logo" alt="Start Timer Image" />
-				</button>
-			</div>
+    //       let time = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 
-			<div style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				gap: '4px',
+    //       if (remaining <= 0) {
+    //         clearInterval(interval);
+    //         time = '00:00';
+    //       }
 
-				marginTop: '0.5rem'
-			}}>
-				{times.map(time => (
-					<button
-						onClick={() => onTimeSelect(time)}
-						style={{
-							borderRadius: '8px',
-							height: 32,
-							width: 64,
-							background: 'white',
-							border: time.id === timeSelect.id ? '2px solid tomato' : '2px solid black',
-							fontSize: '1.25rem',
-							// boxShadow: '0px 5px 3px -1px rgba(148,148,148,1)'
-							'&:hover': {
-								border: '2px solid grey'
-							}
-						}}
-					>
-						{time.label}
-					</button>
-				))}
+    //       setTimeSelect(time);
+    //     }, 1000);
+    //   }
+    // });
+  };
 
-				{/* <button
-					onClick={onTimeSelect}
-					style={{
-						borderRadius: '8px',
-						height: 32,
-						width: 64,
-						background: 'white',
-						border: '2px solid black',
-						fontWeight: 'bold',
-						// boxShadow: '0px 5px 3px -1px rgba(148,148,148,1)'
-					}}
-				>
-					✏️ min
-				</button> */}
-			</div>
+  return (
+    <div style={{ marginTop: 40 }}>
+      <Timer {...{ targetDate }} />
 
-			{/* <div>
-        <label>Volume:</label>
-        <input ref={volumeInput} type="range" min="0" max="1" step="0.1" />
-      </div> */}
-		</div>
-	);
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '4px',
+
+        marginTop: '0.5rem'
+      }}>
+        <button
+          onClick={onStop}
+          style={{
+            borderRadius: '8px',
+            height: 32,
+            width: 64,
+            background: 'white',
+            border: '2px solid black',
+            fontSize: '1.25rem',
+            // boxShadow: '0px 5px 3px -1px rgba(148,148,148,1)'
+            '&:hover': {
+              border: '2px solid grey'
+            }
+          }}
+        >
+          Stop
+        </button>
+      </div>
+
+      <div>
+        {/* <div>
+          <img style={{ width: 180 }} src={startMessageImage} />
+        </div> */}
+
+        <div style={{ marginTop: 35 }} className="boop-btn">
+          <img style={{ width: 88 }} src={pomogatoLogo} className="logo" alt="Start Timer Image" />
+        </div>
+      </div>
+    </div>
+  );
 }
