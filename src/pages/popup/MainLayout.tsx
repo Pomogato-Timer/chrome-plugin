@@ -37,7 +37,7 @@ export default function MainLayout() {
         setTargetDate(isExpired ? null : storageData.endTime);
       };
 
-      if (storageData.timeSelect) setTimeSelect(data.timeSelect);
+      if (storageData.timeSelect) setTimeSelect(storageData.timeSelect);
     })();
   }, [])
 
@@ -63,7 +63,7 @@ export default function MainLayout() {
 
   //   // Load saved volume level
   //   chrome.storage.local.get(["volume"], (result) => {
-  //     volumeSlider.value = result.volume ?? 0.5; // Default to 50%
+  //     volumeSlider.value = result.volume ?? 0.3; // Default to 30%
   //   });
 
   //   // Save new volume when changed
