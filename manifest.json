@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Pomogato Timer",
-  "version": "1.0.0",
-  "description": "A basic example extension with only required keys",
+  "version": "0.0.1",
+  "description": "Pomogato Timer is a distraction-free Pomodoro timer designed to help you stay focused and productive.",
   "icons": {
     "1600": "src/assets/images/pomogato-logo.png"
   },
@@ -14,19 +14,12 @@
     "default_popup": "src/pages/popup/index.html"
   },
   "permissions": [
-    "scripting",
-    "tabs",
-    "activeTab",
     "storage",
     "alarms"
   ],
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ],
   "web_accessible_resources": [
     {
-      "resources": ["src/assets/alarm.mp3"],
+      "resources": ["src/assets/cat-meow-sound.mp3"],
       "matches": ["<all_urls>"]
     }
   ]
