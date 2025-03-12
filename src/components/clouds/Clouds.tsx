@@ -7,6 +7,7 @@ import Cloud2flip from "./Cloud-2-flip.png";
 import Cloud3 from "./Cloud-3.png";
 import Cloud3flip from "./Cloud-3-flip.png";
 
+
 const cloudAssets = {
     1: Cloud1,
     2: Cloud1flip,
@@ -20,7 +21,7 @@ function getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const Clouds = () => {
+export default function Clouds() {
     return (
         <div className="clouds-container">
             {Array(50).fill(1).map((cloud, index) => (
@@ -70,5 +71,3 @@ const Clouds = () => {
         </div>
     );
 };
-
-export default Clouds;

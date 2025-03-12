@@ -2,16 +2,15 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { timer } from '@src/constants/app-consts';
-
-import TimerOff from './TimerOff';
-import TimerOn from './TimerOn';
-
 import { 
   startTimer,
   setStoreValues,
   clearStoreValues, 
   removePluginBadge 
-} from './utils';
+} from '@src/utils';
+
+import TimerOff from './TimerOff';
+import TimerOn from './TimerOn';
 
 
 export default function MainLayout() {

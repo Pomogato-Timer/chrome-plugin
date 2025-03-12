@@ -26,6 +26,10 @@ export function stopTimer() {
     chrome.runtime.sendMessage({ action: actions.stopTimer });
 };
 
+export function closeFinishWindow() {
+    chrome.runtime.sendMessage({ action: actions.closeFinishWindow });
+};
+
 export function removePluginBadge() {
     chrome.action.setBadgeText({ text: "" });
 };

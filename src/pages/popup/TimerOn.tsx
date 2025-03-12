@@ -1,12 +1,12 @@
 //@ts-nocheck
 import { useState, useRef } from 'react';
 
+import { clearStoreValues, stopTimer } from '@src/utils';
+
 import pomogatoLogo from '@assets/images/pomogato-logo.png';
 import startMessageImage from '@assets/images/start-message.png';
 
 import Timer from './Timer';
-
-import { clearStoreValues, stopTimer } from './utils';
 
 
 export default function TimerOn({ 

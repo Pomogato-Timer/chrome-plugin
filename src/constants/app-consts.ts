@@ -34,7 +34,8 @@ export const storageKeys = {
 
 export const actions = {
   startTimer: 'startTimer',
-  stopTimer: 'stopTimer'
+  stopTimer: 'stopTimer',
+  closeFinishWindow: 'closeFinishWindow'
 };
 
 export default {

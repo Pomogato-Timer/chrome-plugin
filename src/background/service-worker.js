@@ -1,6 +1,6 @@
 import { general, storageKeys } from '../constants/app-consts';
 
-import { clearStoreValues, removePluginBadge } from '../pages/popup/utils';
+import { clearStoreValues, removePluginBadge } from '../utils';
 
 
 let pomodoroWindowId = null;
@@ -24,6 +24,14 @@ chrome.action.onClicked.addListener(handlePluginClick);
 chrome.runtime.onMessage.addListener(handleMessage);
 chrome.alarms.onAlarm.addListener(handleTimerAlarm);
 
+
+function closeFinishWindow() {
+    if (!pomodoroWindowId) return;
+
+    chrome.windows.remove(pomodoroWindowId).catch(e => { });
+    pomodoroWindowId = null;
+}
+
 function handlePluginClick() {
     removePluginBadge();
 
@@ -34,19 +42,20 @@ function handlePluginClick() {
     whiteColorInterval.value = null;
     redColorInterval.value = null;
     intervalTimeout.value = null;
-
-    //TODO: Add? pomodoroWindowId = null;
 };
 
 function handleMessage(message) {
     const actions = {
-        startTimer: () => chrome.alarms.create(general.alarmName, { when: message.options[storageKeys.endTime] }),
-        stopTimer: () => chrome.alarms.clear(general.alarmName)
-    };
-
-    if (pomodoroWindowId) {
-        chrome.windows.remove(pomodoroWindowId).catch(e => {});
-        pomodoroWindowId = null;
+        startTimer: () => {
+            chrome.alarms.create(general.alarmName, { when: message.options[storageKeys.endTime] });
+            closeFinishWindow();
+            handlePluginClick();
+        },
+        stopTimer: () => chrome.alarms.clear(general.alarmName),
+        closeFinishWindow: () => {
+            closeFinishWindow();
+            handlePluginClick();
+        },
     };
 
     actions[message.action] && actions[message.action]();

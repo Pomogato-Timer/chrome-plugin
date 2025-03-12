@@ -1,10 +1,10 @@
 //@ts-nocheck
 import { useState, useRef } from 'react';
 
+import { timer } from '@src/constants/app-consts';
+
 import pomogatoLogo from '@assets/images/pomogato-logo.png';
 import startMessageImage from '@assets/images/start-message.png';
-
-import { timer } from '@src/constants/app-consts';
 
 
 export default function TimerOff({

@@ -1,8 +1,9 @@
 //@ts-nocheck
 import { useState, useRef } from 'react';
 
+import Clouds from '@src/components/clouds/Clouds';
+
 import MainLayout from './MainLayout';
-import Clouds from './components/clouds/Clouds';
 
 
 export default function Popup() {
