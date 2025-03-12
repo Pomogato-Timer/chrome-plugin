@@ -10,7 +10,7 @@ export function setStoreValues(endTime: number, timeSelect: object) {
 
 export function clearStoreValues() {
     chrome.storage.local.remove(storageKeys.endTime);
-    chrome.storage.local.remove(storageKeys.timeSelect);
+    // chrome.storage.local.remove(storageKeys.timeSelect);
 };
 
 export function startTimer(endTime: number) {

@@ -21,12 +21,22 @@ export default function TimerOff({
 	return (
 		<div>
 			<div>
-				<div>
-					<img style={{ width: 180 }} src={startMessageImage} />
+				<div className="pixel-corners--wrapper" style={{
+					margin: '0 auto',
+					marginBottom: '0.75rem'
+				}}>
+					<div className="pixel-corners" style={{
+						textAlign: 'center',
+						background: 'white',
+						fontSize: '24px',
+						padding: '6px 12px'
+					}}>
+						<div>Boop my nose to start</div>
+					</div>
 				</div>
 
-				<button style={{ marginTop: -24 }} className="boop-btn" onClick={onStart}>
-					<img style={{ width: 88 }} src={pomogatoLogo} className="logo" alt="Start Timer Image" />
+				<button className="boop-btn" onClick={onStart}>
+					<img style={{ width: 88 }} src={pomogatoLogo} alt="Start Timer Image" />
 				</button>
 			</div>
 
@@ -34,27 +44,31 @@ export default function TimerOff({
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				gap: '4px',
+				gap: '8px',
 
-				marginTop: '0.5rem'
+				marginTop: '0.75rem'
 			}}>
 				{timer.options.map(time => (
 					<button
+						className={`pixel-corners-btn--wrapper ${time.id === timeSelect.id ? 'active' : ''}`}
 						onClick={() => onTimeSelect(time)}
 						style={{
 							borderRadius: '8px',
-							height: 32,
-							width: 64,
 							background: 'white',
-							border: time.id === timeSelect.id ? '2px solid tomato' : '2px solid black',
-							fontSize: '1.25rem',
-							// boxShadow: '0px 5px 3px -1px rgba(148,148,148,1)'
-							'&:hover': {
-								border: '2px solid grey'
-							}
 						}}
 					>
-						{time.label}
+						<div
+							className={`pixel-corners-btn ${time.id === timeSelect.id ? 'active' : ''}`}
+							style={{
+								minWidth: '72px',
+								
+								textAlign: 'center',
+								background: 'white',
+								fontSize: '20px',
+								padding: '4px 8px'
+							}}>
+							<div>{time.label}</div>
+						</div>
 					</button>
 				))}
 

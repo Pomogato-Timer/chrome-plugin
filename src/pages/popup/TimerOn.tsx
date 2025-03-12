@@ -27,35 +27,36 @@ export default function TimerOn({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: '4px',
+        gap: '8px',
 
-        marginTop: '0.5rem'
+        marginTop: '0.75rem'
       }}>
         <button
-          onClick={onStop}
-          style={{
-            borderRadius: '8px',
-            height: 32,
-            width: 64,
-            background: 'white',
-            border: '2px solid black',
-            fontSize: '1.25rem',
-            '&:hover': {
-              border: '2px solid grey'
-            }
-          }}
-        >
-          Stop
-        </button>
+						className="pixel-corners-btn--wrapper"
+						onClick={onStop}
+						style={{
+							borderRadius: '8px',
+							background: 'white',
+						}}
+					>
+						<div
+							className="pixel-corners-btn"
+							style={{
+                minWidth: '72px',
+                
+								textAlign: 'center',
+								background: 'white',
+								fontSize: '20px',
+								padding: '4px 8px'
+							}}>
+							<div>Stop</div>
+						</div>
+					</button>
       </div>
 
       <div>
-        {/* <div>
-          <img style={{ width: 180 }} src={startMessageImage} />
-        </div> */}
-
-        <div style={{ marginTop: 35 }} className="boop-btn">
-          <img style={{ width: 88 }} src={pomogatoLogo} className="logo" alt="Start Timer Image" />
+        <div style={{ marginTop: 27 }}>
+          <img style={{ width: 88 }} src={pomogatoLogo} alt="Start Timer Image" />
         </div>
       </div>
     </div>
