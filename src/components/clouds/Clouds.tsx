@@ -1,5 +1,6 @@
 /* @vite-ignore */
 import "./Clouds.css";
+
 import Cloud1 from "./Cloud-1.png";
 import Cloud1flip from "./Cloud-1-flip.png";
 import Cloud2 from "./Cloud-2.png";
@@ -7,6 +8,10 @@ import Cloud2flip from "./Cloud-2-flip.png";
 import Cloud3 from "./Cloud-3.png";
 import Cloud3flip from "./Cloud-3-flip.png";
 
+import Cloudfigure1 from "./Cloud-figure-1.png";
+import Cloudfigure2 from "./Cloud-figure-2.png";
+import Cloudfigure3 from "./Cloud-figure-3.png";
+import Cloudfigure4 from "./Cloud-figure-4.png";
 
 const cloudAssets = {
     1: Cloud1,
@@ -15,6 +20,10 @@ const cloudAssets = {
     4: Cloud2flip,
     5: Cloud3,
     6: Cloud3flip,
+    7: Cloudfigure1,
+    8: Cloudfigure2,
+    9: Cloudfigure3,
+    10: Cloudfigure4,
 };
 
 function getRandomInteger(min, max) {
@@ -33,9 +42,9 @@ export default function Clouds() {
                         animation: `moveClouds ${getRandomInteger(33, 50)}s linear infinite`
                     }}
                     key={index}
-                    src={cloudAssets[getRandomInteger(1, 6)]}
-                    alt={`Cloud ${index + 1}`}
-                    className={`cloud cloud-${index}`}
+                    src={cloudAssets[getRandomInteger(1, 10)]}
+                    alt={`Cloud-1-${index + 1}`}
+                    className="cloud"
                 />
             ))}
 
@@ -48,9 +57,9 @@ export default function Clouds() {
                         animation: `moveClouds ${getRandomInteger(30, 45)}s linear infinite`
                     }}
                     key={index}
-                    src={cloudAssets[getRandomInteger(1, 6)]}
-                    alt={`Cloud ${index + 1}`}
-                    className={`cloud cloud-${index}`}
+                    src={cloudAssets[getRandomInteger(1, 10)]}
+                    alt={`Cloud-2-${index + 1}`}
+                    className="cloud"
                 />
             ))}
 
@@ -63,9 +72,9 @@ export default function Clouds() {
                         animation: `moveClouds ${getRandomInteger(30, 45)}s linear infinite`
                     }}
                     key={index}
-                    src={cloudAssets[getRandomInteger(1, 6)]}
-                    alt={`Cloud ${index + 1}`}
-                    className={`cloud cloud-${index}`}
+                    src={cloudAssets[getRandomInteger(1, 10)]}
+                    alt={`Cloud-3-${index + 1}`}
+                    className="cloud"
                 />
             ))}
         </div>
