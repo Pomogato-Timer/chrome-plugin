@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pomogato Timer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pomogato Timer is a distraction-free Pomodoro timer designed to help you stay focused and productive.",
   "icons": {
     "1600": "src/assets/images/pomogato-logo.png"
